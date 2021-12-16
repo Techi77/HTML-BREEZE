@@ -235,6 +235,16 @@
       content: ["Да", "Нет"]
     }
   }
+  const tableOfPills = [
+    ["Препарат", "Низкие дозы", "Средние дозы", "Высокие дозы"],
+    ["Беклометазон** (ДАИ, стандартный размер частиц, ГФА)", "200-500", ">500-1000", ">1000"],
+    ["Беклометазон** (ДАИ, ультрамелкий размер частиц*, ГФА)", "100-200", ">200-400", ">400"],
+    ["Будесонид** (ДПИ)", "200-400", ">400-800", ">800"],
+    ["Флутиказон (ДАИ, стандартный размер частиц, ГФА)", "100-250", ">250-500", ">500"],
+    ["Флуказона фуроат (ДПИ)*", "100", "100", "200"],
+    ["Мометазон (ДАИ, стандартный размер частиц, ГФА)", "200-400", "200-400", ">400"],
+    ["Циклесонид (ДАИ, ультраметкий размер частиц**, ГФА)", "80-160", ">160-320", ">320"]
+  ]
   const stages = [
     {
       stage: 1,
@@ -261,6 +271,11 @@
         {
           element: "text",
           content: [{ link: "http://breeze.pharmprosvet.ru/wp-content/uploads/Dopolnitelnaya-informaciya-k-algoritmu-22Lechenie-bronkhialnoĭ-astmy-stabilnogo-techeniya-u-vzroslykh22.pdf", text: "Дополнительная информация" }, " к алгоритму \"Лечение бронхиальной астмы у взрослых\""]
+        },
+        {
+          element: "accordion-table",
+          title: "Низкие, средние, высокие дозы препаратов",
+          content: tableOfPills
         },
       ]
     },
@@ -295,6 +310,11 @@
           element: "text",
           content: [{ link: "http://breeze.pharmprosvet.ru/wp-content/uploads/Dopolnitelnaya-informaciya-k-algoritmu-22Lechenie-bronkhialnoĭ-astmy-stabilnogo-techeniya-u-vzroslykh22.pdf", text: "Дополнительная информация" }, " к алгоритму \"Лечение бронхиальной астмы у взрослых\""]
         },
+        {
+          element: "accordion-table",
+          title: "Низкие, средние, высокие дозы препаратов",
+          content: tableOfPills
+        },
       ]
     },
     {
@@ -326,6 +346,11 @@
         {
           element: "text",
           content: [{ link: "http://breeze.pharmprosvet.ru/wp-content/uploads/Dopolnitelnaya-informaciya-k-algoritmu-22Lechenie-bronkhialnoĭ-astmy-stabilnogo-techeniya-u-vzroslykh22.pdf", text: "Дополнительная информация" }, " к алгоритму \"Лечение бронхиальной астмы у взрослых\""]
+        },
+        {
+          element: "accordion-table",
+          title: "Низкие, средние, высокие дозы препаратов",
+          content: tableOfPills
         },
       ]
     },
@@ -359,6 +384,11 @@
           element: "text",
           content: [{ link: "http://breeze.pharmprosvet.ru/wp-content/uploads/Dopolnitelnaya-informaciya-k-algoritmu-22Lechenie-bronkhialnoĭ-astmy-stabilnogo-techeniya-u-vzroslykh22.pdf", text: "Дополнительная информация" }, " к алгоритму \"Лечение бронхиальной астмы у взрослых\""]
         },
+        {
+          element: "accordion-table",
+          title: "Низкие, средние, высокие дозы препаратов",
+          content: tableOfPills
+        },
       ]
     },
     {
@@ -390,6 +420,11 @@
         {
           element: "text",
           content: [{ link: "http://breeze.pharmprosvet.ru/wp-content/uploads/Dopolnitelnaya-informaciya-k-algoritmu-22Lechenie-bronkhialnoĭ-astmy-stabilnogo-techeniya-u-vzroslykh22.pdf", text: "Дополнительная информация" }, " к алгоритму \"Лечение бронхиальной астмы у взрослых\""]
+        },
+        {
+          element: "accordion-table",
+          title: "Низкие, средние, высокие дозы препаратов",
+          content: tableOfPills
         },
       ]
     }
@@ -543,10 +578,10 @@
           {this.state.thirdQuestionPassed ? <Radiobutton marker="changeStageQuestions" title={changeStageQuestions.question_4.title} content={changeStageQuestions.question_4.content} onAnswer={(answer) => this.onAnswer(4, answer)} /> : <div />}
           {this.state.forthQuestionPassed ? <div>{
             numOfYesAnswers == 0
-              ? <div> {this.props.marker=="startQuestion" ? <Text content={["Пациенту подходит терапия, которую он принимает. В случае хорошего контроля бронхиальной астмы в течение 3 месяцев и более можно рассмотреть вариант уменьшения объема терапии"]}/> : <div /> }
+              ? <div> {this.props.marker == "startQuestion" ? <Text content={["Пациенту подходит терапия, которую он принимает. В случае хорошего контроля бронхиальной астмы в течение 3 месяцев и более можно рассмотреть вариант уменьшения объема терапии"]} /> : <div />}
                 <Button marker="answering" title="Хороший контроль" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(true)} /></div>
               : <div>
-                {this.props.marker=="startQuestion" ? <Text content={["Необходимо скорректировать терапию для достижения контроля"]} /> : <div /> }
+                {this.props.marker == "startQuestion" ? <Text content={["Необходимо скорректировать терапию для достижения контроля"]} /> : <div />}
                 {numOfYesAnswers < 3 ? <Button marker="answering" title="Частичный контроль" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(false)} />
                   : <Button marker="answering" title="Нет контроля" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(false)} />}
               </div>
@@ -618,7 +653,7 @@
             </div>}
           {this.state.stageHasBeenSet >= 0 &&
             <div>
-              <Questions switchAnswering={() => { }} onAnswerAboutControl={this.onAnswerAboutControl} marker = "startQuestion"/>
+              <Questions switchAnswering={() => { }} onAnswerAboutControl={this.onAnswerAboutControl} marker="startQuestion" />
             </div>}
         </div>
       )
@@ -641,6 +676,8 @@
               return <Button key={index} title={item.title} />
             case "radiobutton":
               return <Radiobutton key={index} title={item.title} content={item.content} />
+            case "accordion-table":
+              return <Accordion key={index} title={item.title} content={item.content} marker={"table"} />
             case "accordion":
               return <Accordion key={index} title={item.title} content={item.content} />
           }
@@ -825,23 +862,30 @@
           </div>
           {this.state.opened ?
             <div className="accordionBlock_contentBlock">
-              <div className="accordionBlock_contentBlock_text">
-                {
+              {this.props.marker == "table"
+                ?
+                <div>
+                  {this.props.content.map((item) => {
+                    return <tr>{item.map((item) => { return <td>{item}</td> })}</tr>
+                  })}
+                </div>
+                :
+                <div className="accordionBlock_contentBlock_text">
+                  {
+                    this.props.content.map((item) => {
+                      if (typeof item === "object") {
+                        return <a className="linkInText" href={item.link}>{item.text}</a>
+                      }
+                      else if (item === "<br>") return <br />;
+                      else if (item.includes("<b>")) return <b><span>{item.replace("<b>", "").replace("</b>", "")}</span></b>;
+                      else {
+                        return <span>{item}</span>
+                      }
+                    })
+                  }
+                </div>
+              }
 
-                  this.props.content.map((item) => {
-                    if (typeof item === "object") {
-                      return <a className="linkInText" href={item.link}>{item.text}</a>
-                    }
-                    else if (item === "<br>") return <br />;
-                    else if (item.includes("<b>")) return <b><span>{item.replace("<b>", "").replace("</b>", "")}</span></b>;
-                    else {
-                      return <span>{item}</span>
-                    }
-
-                  })
-
-                }
-              </div>
             </div>
             : <div />
           }
