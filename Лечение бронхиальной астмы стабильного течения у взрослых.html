@@ -460,7 +460,7 @@
           }
 
           {
-            this.state.currentStage === -1 ? <StartBlock onChangeStage={this.onChangeStage} /> : <div />
+            this.state.currentStage === -1 ? <StartBlock onChangeStage={this.onChangeStage} switchAnswering={this.switchAnswering} onAnswerAboutControl={this.onAnswerAboutControl}/> : <div />
           }
 
           {
@@ -559,9 +559,7 @@
       super(props);
       this.state = {
         startQuestionCaseNum: 0, // 0 - первый стартовый вопрос, (-1) - нет, 1 - да, 
-        subQuestionsIsActive: false,
-        firstQuestionPassed: false,
-        secondQuestionPassed: false,
+        stageHasBeenSet: -1,
       }
     }
 
@@ -570,43 +568,33 @@
         startQuestionCaseNum: caseNum
       })
     }
-    activateSubQuestions = () => {
+    setStage = (stage=-1) => {
       this.setState({
-        subQuestionsIsActive: true
+        stageHasBeenSet: stage
       })
     }
 
-    onAnswerYes = (order, marker) => {
-
-      switch (order) {
-        case 1:
-          this.props.onChangeStage(3)
-          break;
-        case 2:
-          this.props.onChangeStage(2)
-          break;
-        case 3:
-          this.props.onChangeStage(1)
-          break;
+    onAnswerAboutControl = (isGood) => {
+      if (isGood) {
+        if (this.state.stageHasBeenSet - 1 === -1) {
+          this.props.onChangeStage(-2);
+        }
+        else {
+          this.props.onChangeStage(this.state.stageHasBeenSet - 1);
+        }
       }
+      else {
+        if (this.state.stageHasBeenSet === 4) {
+          this.props.onChangeStage(-3);
+        }
+        else {
+          this.props.onChangeStage(this.state.stageHasBeenSet + 1);
+        }
 
+      }
     }
 
-    onAnswerNo = (order, marker) => {
 
-      switch (order) {
-        case 1:
-          this.setState({ firstQuestionPassed: true })
-          break;
-        case 2:
-          this.setState({ secondQuestionPassed: true })
-          break;
-        case 3:
-          this.props.onChangeStage(0)
-          break;
-      }
-
-    }
 
     render() {
       return (
@@ -616,17 +604,18 @@
           </div>
           {
             this.state.startQuestionCaseNum == -1 &&
+            <div>
             <Radiobutton marker="startQuestions" title={startQuestions.case1.title} content={startQuestions.case1.content} onChangeStage={this.props.onChangeStage} />
+            </div>
           }
           { this.state.startQuestionCaseNum == 1 &&
             <div>
-            <Radiobutton marker="stageQuestions" title="Выберите терапию, которую сейчас принимает пациент по поводу бронхиальной астмы." content={stageQuestions} onChangeStage={this.props.onChangeStage} activateSubQuestions={this.activateSubQuestions} />
+            <Radiobutton marker="stageQuestions" title="Выберите терапию, которую сейчас принимает пациент по поводу бронхиальной астмы." content={stageQuestions} setStage={this.setStage} />
           </div>}
-          <div>
-            {this.state.subQuestionsIsActive ? <Radiobutton marker="subStartQuestions" title={subQuestions.question_1.title} content={subQuestions.question_1.content} onAnswerNo={(marker) => this.onAnswerNo(1)} onAnswerYes={() => this.onAnswerYes(1)} /> : <div />}
-            {this.state.firstQuestionPassed ? <Radiobutton marker="subStartQuestions" title={subQuestions.question_2.title} content={subQuestions.question_2.content} onAnswerNo={(marker) => this.onAnswerNo(2)} onAnswerYes={() => this.onAnswerYes(2)} /> : <div />}
-            {this.state.secondQuestionPassed ? <Radiobutton marker="subStartQuestions" title={subQuestions.question_3.title} content={subQuestions.question_3.content} onAnswerNo={(marker) => this.onAnswerNo(3)} onAnswerYes={() => this.onAnswerYes(3)} /> : <div />}
-          </div>
+          { this.state.stageHasBeenSet>=0 &&
+            <div>
+            <Questions switchAnswering={() => {}} onAnswerAboutControl={this.onAnswerAboutControl}/>
+          </div>}
         </div>
       )
     }
@@ -777,22 +766,8 @@
                       }
                     }
                     if (this.props.marker === "stageQuestions") {
-                      if (button.text === "Пациент не получал лечение") {
-                        this.props.activateSubQuestions()
-                      }
-                      else {
-                        this.props.onChangeStage(index);
-                      }
+                        this.props.setStage(index)
                     }
-                    if (this.props.marker === "subStartQuestions") {
-                      if (button.text === "Нет") {
-                        this.props.onAnswerNo();
-                      }
-                      else {
-                        this.props.onAnswerYes();
-                      }
-                    }
-
                     if (this.props.marker === "changeStageQuestions") {
                       this.props.onAnswer(button.text);
                     }
