@@ -448,7 +448,7 @@
     render() {
       return (
         <div className="algorythmRoot">
-          <Text content={["Алгоритм составлен на основании клинических рекомендаций", { link: "https://cr.minzdrav.gov.ru/schema/359_2", text: " «Бронхиальная астма»" }, " (разработчики – Российское респираторное общество, Российская ассоциация аллергологов и клинических иммунологов, Союз педиатров России), 2021 г., при участии",  " <b>Российского научного медицинского общества терапевтов.</b>"]} />
+          <Text content={["Алгоритм составлен на основании клинических рекомендаций", { link: "https://cr.minzdrav.gov.ru/schema/359_2", text: " «Бронхиальная астма»" }, " (разработчики – Российское респираторное общество, Российская ассоциация аллергологов и клинических иммунологов, Союз педиатров России), 2021 г., при участии", " <b>Российского научного медицинского общества терапевтов.</b>"]} />
           {
 
             this.state.currentStage === -2 ?
@@ -460,7 +460,7 @@
           }
 
           {
-            this.state.currentStage === -1 ? <StartBlock onChangeStage={this.onChangeStage} switchAnswering={this.switchAnswering} onAnswerAboutControl={this.onAnswerAboutControl}/> : <div />
+            this.state.currentStage === -1 ? <StartBlock onChangeStage={this.onChangeStage} switchAnswering={this.switchAnswering} onAnswerAboutControl={this.onAnswerAboutControl} /> : <div />
           }
 
           {
@@ -533,7 +533,7 @@
 
     render() {
       let numOfYesAnswers = 0
-      this.state.answers.map((item) => {if(item=="Да")numOfYesAnswers++})
+      this.state.answers.map((item) => { if (item == "Да") numOfYesAnswers++ })
       return (
         <div>
           <Text content={["За последние 4 недели у пациента отмечались..."]} />
@@ -542,10 +542,10 @@
           {this.state.secondQuestionPassed ? <Radiobutton marker="changeStageQuestions" title={changeStageQuestions.question_3.title} content={changeStageQuestions.question_3.content} onAnswer={(answer) => this.onAnswer(3, answer)} /> : <div />}
           {this.state.thirdQuestionPassed ? <Radiobutton marker="changeStageQuestions" title={changeStageQuestions.question_4.title} content={changeStageQuestions.question_4.content} onAnswer={(answer) => this.onAnswer(4, answer)} /> : <div />}
           {this.state.forthQuestionPassed ? <div>{
-            numOfYesAnswers==0
+            numOfYesAnswers == 0
               ? <Button marker="answering" title="Хороший контроль" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(true)} />
-              : numOfYesAnswers<3 ? <Button marker="answering" title="Частичный контроль" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(false)} />
-              : <Button marker="answering" title="Нет контроля" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(false)} />
+              : numOfYesAnswers < 3 ? <Button marker="answering" title="Частичный контроль" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(false)} />
+                : <Button marker="answering" title="Нет контроля" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(false)} />
           }</div> : <div />
 
           }
@@ -568,7 +568,7 @@
         startQuestionCaseNum: caseNum
       })
     }
-    setStage = (stage=-1) => {
+    setStage = (stage = -1) => {
       this.setState({
         stageHasBeenSet: stage
       })
@@ -605,17 +605,17 @@
           {
             this.state.startQuestionCaseNum == -1 &&
             <div>
-            <Radiobutton marker="startQuestions" title={startQuestions.case1.title} content={startQuestions.case1.content} onChangeStage={this.props.onChangeStage} />
+              <Radiobutton marker="startQuestions" title={startQuestions.case1.title} content={startQuestions.case1.content} onChangeStage={this.props.onChangeStage} />
             </div>
           }
-          { this.state.startQuestionCaseNum == 1 &&
+          {this.state.startQuestionCaseNum == 1 &&
             <div>
-            <Radiobutton marker="stageQuestions" title="Выберите терапию, которую сейчас принимает пациент по поводу бронхиальной астмы." content={stageQuestions} setStage={this.setStage} />
-          </div>}
-          { this.state.stageHasBeenSet>=0 &&
+              <Radiobutton marker="stageQuestions" title="Выберите терапию, которую сейчас принимает пациент по поводу бронхиальной астмы." content={stageQuestions} setStage={this.setStage} />
+            </div>}
+          {this.state.stageHasBeenSet >= 0 &&
             <div>
-            <Questions switchAnswering={() => {}} onAnswerAboutControl={this.onAnswerAboutControl}/>
-          </div>}
+              <Questions switchAnswering={() => { }} onAnswerAboutControl={this.onAnswerAboutControl} />
+            </div>}
         </div>
       )
     }
@@ -748,25 +748,25 @@
                   })
                 },
                   () => {
-                    if (this.props.marker === "startQuestions"){
+                    if (this.props.marker === "startQuestions") {
                       if (button.text === "Да") {
                         this.props.onClickStartQuestion(1)
                       }
-                      else if (button.text === "Нет"){
+                      else if (button.text === "Нет") {
                         this.props.onClickStartQuestion(-1)
                       }
-                      else if (button.text === "Симптомы <2 раз в неделю,\nОФВ\u2081 или ПСВ ≥80%"){
+                      else if (button.text === "Симптомы <2 раз в неделю,\nОФВ\u2081 или ПСВ ≥80%") {
                         this.props.onChangeStage(0)
                       }
-                      else if (button.text === "Симптомы ≥2 раз в неделю,\nОФВ\u2081 или ПСВ ≥80%"){
+                      else if (button.text === "Симптомы ≥2 раз в неделю,\nОФВ\u2081 или ПСВ ≥80%") {
                         this.props.onChangeStage(1)
                       }
-                      else if (button.text === "Симптомы большинство дней в неделю или ежедневно,\nОФВ\u2081 или ПСВ < 80%"){
+                      else if (button.text === "Симптомы большинство дней в неделю или ежедневно,\nОФВ\u2081 или ПСВ < 80%") {
                         this.props.onChangeStage(2)
                       }
                     }
                     if (this.props.marker === "stageQuestions") {
-                        this.props.setStage(index)
+                      this.props.setStage(index)
                     }
                     if (this.props.marker === "changeStageQuestions") {
                       this.props.onAnswer(button.text);
