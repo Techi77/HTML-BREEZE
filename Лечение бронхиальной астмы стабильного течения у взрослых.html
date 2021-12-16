@@ -543,9 +543,13 @@
           {this.state.thirdQuestionPassed ? <Radiobutton marker="changeStageQuestions" title={changeStageQuestions.question_4.title} content={changeStageQuestions.question_4.content} onAnswer={(answer) => this.onAnswer(4, answer)} /> : <div />}
           {this.state.forthQuestionPassed ? <div>{
             numOfYesAnswers == 0
-              ? <Button marker="answering" title="Хороший контроль" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(true)} />
-              : numOfYesAnswers < 3 ? <Button marker="answering" title="Частичный контроль" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(false)} />
-                : <Button marker="answering" title="Нет контроля" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(false)} />
+              ? <div> {this.props.marker=="startQuestion" ? <Text content={["Пациенту подходит терапия, которую он принимает. В случае хорошего контроля бронхиальной астмы в течение 3 месяцев и более можно рассмотреть вариант уменьшения объема терапии"]}/> : <div /> }
+                <Button marker="answering" title="Хороший контроль" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(true)} /></div>
+              : <div>
+                {this.props.marker=="startQuestion" ? <Text content={["Необходимо скорректировать терапию для достижения контроля"]} /> : <div /> }
+                {numOfYesAnswers < 3 ? <Button marker="answering" title="Частичный контроль" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(false)} />
+                  : <Button marker="answering" title="Нет контроля" switchAnswering={this.props.switchAnswering} onAnswerAboutControl={() => this.props.onAnswerAboutControl(false)} />}
+              </div>
           }</div> : <div />
 
           }
@@ -614,7 +618,7 @@
             </div>}
           {this.state.stageHasBeenSet >= 0 &&
             <div>
-              <Questions switchAnswering={() => { }} onAnswerAboutControl={this.onAnswerAboutControl} />
+              <Questions switchAnswering={() => { }} onAnswerAboutControl={this.onAnswerAboutControl} marker = "startQuestion"/>
             </div>}
         </div>
       )
